@@ -11,6 +11,7 @@ import ServiceCardDetails from "../Pages/Card/ServiceCardDetails";
 import Profile from "../Pages/Profile/Profile";
 import UpdateProfile from "../Pages/Profile/UpdateProfile";
 import UpdateService from "../Pages/Card/UpdateService";
+import PrivateRoute from "./PrivateRoute";
 
 const router = createBrowserRouter([
   {
@@ -23,10 +24,10 @@ const router = createBrowserRouter([
         element: <Home></Home>,
       },
       {
-        path: "/login",
+        path: "/Auth/login",
         element: <Login></Login>,
       },
-      { path: "/register", element: <Register></Register> },
+      { path: "/Auth/register", element: <Register></Register> },
       {
         path: "/my-service",
         element: <MyService></MyService>,
@@ -38,13 +39,23 @@ const router = createBrowserRouter([
       },
       {
         path: "/service-details/:id",
-        element: <ServiceCardDetails></ServiceCardDetails>,
+        element: (
+          <PrivateRoute>
+            <ServiceCardDetails></ServiceCardDetails>
+          </PrivateRoute>
+        ),
         loader: ({ params }) =>
           fetch(`http://localhost:3000/hero/${params.id}`),
       },
       {
         path: "/update-service/:id",
-        element: <UpdateService></UpdateService>,
+        element: (
+          <PrivateRoute>
+            <UpdateService></UpdateService>
+          </PrivateRoute>
+        ),
+        loader: ({ params }) =>
+          fetch(`http://localhost:3000/hero/${params.id}`),
       },
       {
         path: "/my-bookings",

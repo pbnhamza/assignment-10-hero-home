@@ -1,10 +1,16 @@
 import React, { use } from "react";
 
 import { AuthContext } from "../../Components/context/AuthContext";
+import toast from "react-hot-toast";
+import { useLoaderData, useNavigate } from "react-router";
 
 const UpdateService = () => {
   const { user } = use(AuthContext);
-  const handleSubmit = (e) => {
+  const navigate = useNavigate();
+  const serviceData = useLoaderData();
+  const data = serviceData.result;
+
+  const handleUpdateSubmit = (e) => {
     e.preventDefault();
 
     const formData = {
@@ -18,21 +24,22 @@ const UpdateService = () => {
       Price: e.target.price.value,
     };
 
-    // fetch("http://localhost:3000/hero", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify(formData),
-    // })
-    //   .then((res) => res.json())
-    //   .then((data) => {
-    //     toast.success("Data Add Successful");
-    //     console.log(data);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
+    fetch(`http://localhost:3000/hero/${data._id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        toast.success("Data Update Successful");
+        navigate("/my-service");
+        console.log(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
   return (
     <div className="py-5 px-5">
@@ -47,7 +54,7 @@ const UpdateService = () => {
           <h2 className="text-2xl font-bold text-center text-white rounded mb-6 ">
             Update your Service
           </h2>
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleUpdateSubmit} className="space-y-4">
             <div className="flex items-center justify-between gap-5 ">
               {/* Name Field */}
               <div>
@@ -55,6 +62,7 @@ const UpdateService = () => {
                 <input
                   type="text"
                   name="name"
+                  defaultValue={data.ProviderName}
                   required
                   className="input w-full rounded-2xl focus:border-0 focus:outline-gray-200"
                   placeholder="Provider Name"
@@ -65,6 +73,7 @@ const UpdateService = () => {
                 <input
                   type="text"
                   name="service"
+                  defaultValue={data.ServiceName}
                   required
                   className="input w-full rounded-2xl focus:border-0 focus:outline-gray-200"
                   placeholder="Service Name"
@@ -77,6 +86,7 @@ const UpdateService = () => {
                 <input
                   type="text"
                   name="price"
+                  defaultValue={data.Price}
                   required
                   className="input w-full rounded-2xl focus:border-0 focus:outline-gray-200"
                   placeholder="Enter Price"
@@ -87,7 +97,7 @@ const UpdateService = () => {
               <div className="">
                 <label className="label font-medium">Category</label>
                 <select
-                  defaultValue={""}
+                  defaultValue={data.Category}
                   name="category"
                   required
                   className="select w-full rounded-2xl focus:border-0 focus:outline-gray-200"
@@ -107,6 +117,7 @@ const UpdateService = () => {
               <input
                 type="text"
                 name="number"
+                defaultValue={data.PhoneNumber}
                 required
                 className="input w-full rounded-2xl focus:border-0 focus:outline-gray-200"
                 placeholder="Enter Phone Number"
@@ -119,6 +130,7 @@ const UpdateService = () => {
               <input
                 type="url"
                 name="thumbnail"
+                defaultValue={data.ImageURL}
                 required
                 className="input w-full rounded-2xl focus:border-0 focus:outline-gray-200"
                 placeholder="https://example.com/image.jpg"
@@ -131,6 +143,7 @@ const UpdateService = () => {
               <textarea
                 name="description"
                 required
+                defaultValue={data.Description}
                 rows="3"
                 className="textarea w-full rounded-2xl focus:border-0 focus:outline-gray-200 h-[100px]"
                 placeholder="Enter description"

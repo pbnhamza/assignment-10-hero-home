@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router";
 
 const ServiceCard = ({ card }) => {
-  const { ProviderName, ImageURL, Category, ServiceName, _id } = card || {};
+  const { ProviderName, ImageURL, Category, ServiceName, _id, Price } = card;
 
   return (
     <div className="py-5 ">
@@ -21,7 +21,10 @@ const ServiceCard = ({ card }) => {
               {Category}
             </div>
           </div>
-          <h2 className="card-title">{ServiceName}</h2>
+          <div className="flex items-center justify-between ">
+            <h2 className="card-title">{ServiceName}</h2>
+            <h2 className="card-title text-[#596FF8]">{Price}Tk.</h2>
+          </div>
 
           {/* <p className="text-sm text-base-content/70">by {author}</p> */}
           <div className="card-actions justify-between items-center mt-4">

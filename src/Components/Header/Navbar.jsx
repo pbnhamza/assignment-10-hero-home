@@ -123,7 +123,7 @@ const Navbar = () => {
                 className="toggle"
               />
               <li>
-                <a className="justify-between">Profile</a>
+                <Link to={"/my-profile"}>Profile</Link>
               </li>
               <li>
                 <Link onClick={handleSingOut} className="btn">

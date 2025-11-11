@@ -7,8 +7,10 @@ import AddService from "../Pages/AddService";
 import MyBookings from "../Pages/MyBookings";
 import Login from "../Components/Auth/Login";
 import Register from "../Components/Auth/Register";
-import Profile from "../Pages/Profile";
 import ServiceCardDetails from "../Pages/Card/ServiceCardDetails";
+import Profile from "../Pages/Profile/Profile";
+import UpdateProfile from "../Pages/Profile/UpdateProfile";
+import UpdateService from "../Pages/Card/UpdateService";
 
 const router = createBrowserRouter([
   {
@@ -37,6 +39,12 @@ const router = createBrowserRouter([
       {
         path: "/service-details/:id",
         element: <ServiceCardDetails></ServiceCardDetails>,
+        loader: ({ params }) =>
+          fetch(`http://localhost:3000/hero/${params.id}`),
+      },
+      {
+        path: "/update-service/:id",
+        element: <UpdateService></UpdateService>,
       },
       {
         path: "/my-bookings",
@@ -45,6 +53,10 @@ const router = createBrowserRouter([
       {
         path: "/my-profile",
         element: <Profile></Profile>,
+      },
+      {
+        path: "/update-profile",
+        element: <UpdateProfile></UpdateProfile>,
       },
     ],
   },

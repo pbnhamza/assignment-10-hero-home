@@ -12,6 +12,7 @@ import Profile from "../Pages/Profile/Profile";
 import UpdateProfile from "../Pages/Profile/UpdateProfile";
 import UpdateService from "../Pages/Card/UpdateService";
 import PrivateRoute from "./PrivateRoute";
+import LoadingPage from "../Components/Loading/LoadingPage";
 
 const router = createBrowserRouter([
   {
@@ -31,7 +32,6 @@ const router = createBrowserRouter([
       {
         path: "/my-service",
         element: <MyService></MyService>,
-        loader: () => fetch("http://localhost:3000/hero"),
       },
       {
         path: "/add-service",
@@ -68,6 +68,10 @@ const router = createBrowserRouter([
       {
         path: "/update-profile",
         element: <UpdateProfile></UpdateProfile>,
+      },
+      {
+        path: "/loading",
+        element: <LoadingPage></LoadingPage>,
       },
     ],
   },

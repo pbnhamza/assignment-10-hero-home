@@ -1,9 +1,23 @@
-import React from "react";
-import { useLoaderData } from "react-router";
+import React, { useEffect, useState } from "react";
+
 import ServiceCard from "./Card/ServiceCard";
+import LoadingPage from "../Components/Loading/LoadingPage";
 
 const MyService = () => {
-  const data = useLoaderData();
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    fetch("http://localhost:3000/hero")
+      .then((res) => res.json())
+      .then((data) => {
+        setData(data);
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) {
+    return <LoadingPage></LoadingPage>;
+  }
 
   return (
     <div className="">

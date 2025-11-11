@@ -71,7 +71,7 @@ const Banner = () => {
                       {slide.desc}
                     </motion.p>
                     <motion.button
-                      onClick={() => navigate("/")}
+                      onClick={() => navigate("/my-service")}
                       className="bg-[#488cfb] hover:bg-blue-700 px-8 py-3 rounded-lg text-white font-medium"
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}

@@ -1,7 +1,32 @@
+import { useContext, useRef, useState } from "react";
 import { Link, useLoaderData } from "react-router";
+import { AuthContext } from "../../Components/context/AuthContext";
 const ServiceBookDetailsCard = () => {
   const serviceData = useLoaderData();
   const card = serviceData.result;
+  const bookModalRef = useRef(null);
+  const { user } = useContext(AuthContext);
+  const [reviews, setReviews] = useState([]); // local array state
+  const [comments, setComments] = useState("");
+  console.log(reviews);
+
+  const handleBooKModal = () => {
+    bookModalRef.current.showModal();
+  };
+
+  const handleReview = (e) => {
+    e.preventDefault();
+    const createArray = {
+      name: user?.displayName,
+      email: user?.email,
+      date: new Date().toLocaleDateString(),
+      comments,
+    };
+    console.log(createArray);
+    const updatedReviews = [...reviews, createArray];
+    setReviews(updatedReviews);
+    setComments("");
+  };
 
   const {
     ProviderName,
@@ -13,8 +38,8 @@ const ServiceBookDetailsCard = () => {
     Price,
     Email,
     Description,
-  } = card || {};
-  console.log(card);
+  } = card;
+
   return (
     <div className="max-w-5xl mx-auto p-4 md:p-2 lg:p-2">
       <div
@@ -78,9 +103,12 @@ const ServiceBookDetailsCard = () => {
 
             {/* Optional: Action Buttons */}
             <div className="flex gap-3 mt-6">
-              <Link className=" p-2  rounded bg-linear-to-r from-[#48346D] to-[#3F6BDA] text-white border-2 hover:from-pink-500 hover:to-red-800">
+              <button
+                onClick={handleBooKModal}
+                className=" p-2  rounded bg-linear-to-r from-[#48346D] to-[#3F6BDA] text-white border-2 hover:from-pink-500 hover:to-red-800"
+              >
                 Book Now
-              </Link>
+              </button>
               <Link
                 to={"/my-service"}
                 className=" p-2  rounded bg-linear-to-r from-[#48346D] to-[#3F6BDA] text-white border-2 hover:from-pink-500 hover:to-red-800"
@@ -91,6 +119,41 @@ const ServiceBookDetailsCard = () => {
           </div>
         </div>
       </div>
+
+      <dialog ref={bookModalRef} className="modal modal-bottom sm:modal-middle">
+        <div className="rounded-2xl bg-purple-50 p-5  items-end justify-center">
+          <form onSubmit={handleReview}>
+            <label className="font-semibold text-gray-700">
+              Write a Review
+            </label>
+            <textarea
+              required
+              value={comments}
+              onChange={(e) => setComments(e.target.value)}
+              className="w-full text-gray-600 border p-2 rounded-md mt-1"
+              placeholder="Write your Comments..."
+            ></textarea>
+            <div className="flex justify-center items-center gap-5">
+              <div>
+                <button
+                  type="submit"
+                  className=" bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 cursor-pointer"
+                >
+                  Submit Review
+                </button>
+              </div>
+              <div>
+                <form method="dialog">
+                  {/* if there is a button in form, it will close the modal */}
+                  <button className=" bg-gray-800 text-white px-4 py-2 rounded-md hover:bg-blue-700 cursor-pointer">
+                    Close
+                  </button>
+                </form>
+              </div>
+            </div>
+          </form>
+        </div>
+      </dialog>
     </div>
   );
 };

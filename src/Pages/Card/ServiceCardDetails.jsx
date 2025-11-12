@@ -5,8 +5,8 @@ import { AuthContext } from "../../Components/context/AuthContext";
 import Login from "../../Components/Auth/Login";
 
 const ServiceCardDetails = () => {
-  const serviceData = useLoaderData();
   const { user } = useContext(AuthContext);
+  const serviceData = useLoaderData();
   const data = serviceData.result;
   const navigate = useNavigate();
   const {

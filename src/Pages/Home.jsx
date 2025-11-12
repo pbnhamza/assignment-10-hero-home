@@ -1,144 +1,169 @@
-import React, { useEffect, useState } from "react";
 import Banner from "../Components/Header/Banner";
-import ServiceCard from "./Card/ServiceCard";
-import LoadingPage from "../Components/Loading/LoadingPage";
+import { motion } from "framer-motion";
+import { useInView } from "react-intersection-observer";
+import { useState } from "react";
 
 const Home = () => {
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    fetch("http://localhost:3000/latest-hero")
-      .then((res) => res.json())
-      .then((data) => {
-        setData(data);
-        setLoading(false);
-      });
-  }, []);
+  const [ref1, inView1] = useInView({ triggerOnce: true, threshold: 0.2 });
+  const [ref2, inView2] = useInView({ triggerOnce: true, threshold: 0.2 });
 
-  if (loading) {
-    return <LoadingPage></LoadingPage>;
-  }
-
+  // Auto-scroll testimonials
+  const [isPaused, setIsPaused] = useState(false);
+  const testimonials = [
+    {
+      name: "Ayesha Siddika",
+      role: "Housewife, Dhaka",
+      text: "Got my AC fixed in 30 mins! Rafiq bhai was so professional and charged exactly as quoted.",
+      rating: 5,
+    },
+    {
+      name: "Rahim Khan",
+      role: "Business Owner",
+      text: "Office cleaning team came on Sunday morning. Spotless result! Will book monthly now.",
+      rating: 5,
+    },
+    {
+      name: "Fatema Akter",
+      role: "Teacher",
+      text: "Sink was blocked for 3 days. Imran fixed it in 15 mins. Best price in town!",
+      rating: 5,
+    },
+    {
+      name: "Karim Hossain",
+      role: "Student",
+      text: "New light fixtures look amazing! Energy bill dropped too. Highly recommend Nasir.",
+      rating: 4,
+    },
+  ];
   return (
     <div className="">
       <Banner></Banner>
-      <div>
-        <div
-          style={{
-            background:
-              " radial-gradient(circle,rgba(63, 94, 251, 10) 0%, rgba(252, 70, 107, .2) 100%)",
-          }}
-        >
-          <h1 className="font-bold text-center  text-white text-3xl py-4">
-            Our Latest Service
-          </h1>
-        </div>
 
-        <div className="px-5 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4">
-          {data.map((card) => (
-            <ServiceCard key={card._id} card={card}></ServiceCard>
-          ))}
-        </div>
-      </div>
       <div>
-        <section className="bg-gray-50 py-16">
-          <div className="max-w-6xl mx-auto text-center px-4">
-            <h2 className="text-4xl font-bold mb-8 text-gray-800">
+        <section className="py-4 ">
+          <div className="max-w-6xl mx-auto px-4">
+            <motion.h2
+              initial={{ opacity: 0, y: -50 }}
+              animate={inView1 ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.8 }}
+              className="text-4xl md:text-5xl font-bold text-center py-8"
+            >
               Why Choose Us
-            </h2>
-            <div className="grid md:grid-cols-3 gap-8">
-              <div className="p-6 bg-white rounded-2xl shadow hover:shadow-lg transition">
-                <img
-                  src="https://cdn-icons-png.flaticon.com/512/4228/4228679.png"
-                  alt="Trusted"
-                  className="w-16 mx-auto mb-4"
-                />
-                <h3 className="text-xl font-semibold mb-2">
-                  Trusted Professionals
-                </h3>
-                <p className="text-gray-600">
-                  All our service providers are verified and highly rated by
-                  real users.
-                </p>
-              </div>
-              <div className="p-6 bg-white rounded-2xl shadow hover:shadow-lg transition">
-                <img
-                  src="https://cdn-icons-png.flaticon.com/512/456/456212.png"
-                  alt="Support"
-                  className="w-16 mx-auto mb-4"
-                />
-                <h3 className="text-xl font-semibold mb-2">
-                  24/7 Customer Support
-                </h3>
-                <p className="text-gray-600">
-                  Our team is always available to help with your queries and
-                  bookings.
-                </p>
-              </div>
-              <div className="p-6 bg-white rounded-2xl shadow hover:shadow-lg transition">
-                <img
-                  src="https://cdn-icons-png.flaticon.com/512/476/476863.png"
-                  alt="Affordable"
-                  className="w-16 mx-auto mb-4"
-                />
-                <h3 className="text-xl font-semibold mb-2">
-                  Affordable Pricing
-                </h3>
-                <p className="text-gray-600">
-                  Get high-quality services at prices that fit your budget.
-                </p>
-              </div>
-            </div>
+            </motion.h2>
+
+            <motion.div
+              ref={ref1}
+              className="grid md:grid-cols-3 gap-10 "
+              variants={{
+                hidden: { opacity: 0 },
+                show: {
+                  opacity: 1,
+                  transition: { staggerChildren: 0.3 },
+                },
+              }}
+              initial="hidden"
+              animate={inView1 ? "show" : "hidden"}
+            >
+              {[
+                {
+                  icon: "https://cdn-icons-png.flaticon.com/512/4228/4228679.png",
+                  title: "Verified Experts",
+                  desc: "All providers are background-checked and rated by real customers.",
+                },
+                {
+                  icon: "https://img.icons8.com/?size=100&id=Ry7mumEprV9w&format=png&color=000000",
+                  title: "24/7 Support",
+                  desc: "Chat or c all anytime. We're here when you need us.",
+                },
+                {
+                  icon: "https://cdn-icons-png.flaticon.com/512/476/476863.png",
+                  title: "Fair Pricing",
+                  desc: "No hidden fees. Pay only what you see upfront.",
+                },
+              ].map((item, i) => (
+                <motion.div
+                  key={i}
+                  variants={{
+                    hidden: { y: 100, opacity: 0 },
+                    show: {
+                      y: 0,
+                      opacity: 1,
+                      transition: { type: "spring", stiffness: 80 },
+                    },
+                  }}
+                  whileHover={{ scale: 1.08, y: -10 }}
+                  className="bg-white p-4 rounded-3xl shadow-xl hover:shadow-xl transition-all duration-300 text-center border border-gray-100  "
+                >
+                  <motion.div
+                    whileHover={{ rotate: 360, scale: 1.3 }}
+                    transition={{ duration: 0.6 }}
+                    className="w-24 h-24 mx-auto mb-6 bg-[#4461FA] rounded-full flex items-center justify-center p-4 "
+                  >
+                    <img
+                      src={item.icon}
+                      alt=""
+                      className="w-14 h-14 text-white"
+                    />
+                  </motion.div>
+                  <h3 className="text-2xl font-bold mb-3 text-gray-800">
+                    {item.title}
+                  </h3>
+                  <p className="text-gray-600">{item.desc}</p>
+                </motion.div>
+              ))}
+            </motion.div>
           </div>
         </section>
       </div>
       <div>
-        <section className="bg-white py-16">
-          <div className="max-w-6xl mx-auto text-center px-4">
-            <h2 className="text-4xl font-bold mb-8 text-gray-800">
+        <section className="  text-white">
+          <div className=" mx-auto py-4 px-4">
+            <motion.h2
+              ref={ref2}
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={inView2 ? { opacity: 1, scale: 1 } : {}}
+              transition={{ duration: 0.8 }}
+              className="text-3xl md:text-4xl font-bold text-center py-4 text-gray-800"
+            >
               What Our Customers Say
-            </h2>
-            <div className="grid md:grid-cols-3 gap-8">
-              <div className="p-6 bg-gray-50 rounded-2xl shadow">
-                <img
-                  src="https://randomuser.me/api/portraits/women/44.jpg"
-                  alt="Customer"
-                  className="w-20 h-20 rounded-full mx-auto mb-4"
-                />
-                <p className="text-gray-600 italic mb-4">
-                  “The electrician arrived on time and fixed the issue quickly.
-                  Excellent service!”
-                </p>
-                <h4 className="font-semibold text-gray-800">Sarah Ahmed</h4>
-                <p className="text-sm text-gray-500">Dhaka, Bangladesh</p>
-              </div>
+            </motion.h2>
 
-              <div className="p-6 bg-gray-50 rounded-2xl shadow">
-                <img
-                  src="https://randomuser.me/api/portraits/men/32.jpg"
-                  alt="Customer"
-                  className="w-20 h-20 rounded-full mx-auto mb-4"
-                />
-                <p className="text-gray-600 italic mb-4">
-                  “I booked a plumber through HomeHero, and he was very
-                  professional.”
-                </p>
-                <h4 className="font-semibold text-gray-800">Rafiul Hasan</h4>
-                <p className="text-sm text-gray-500">Chittagong, Bangladesh</p>
-              </div>
-
-              <div className="p-6 bg-gray-50 rounded-2xl shadow">
-                <img
-                  src="https://randomuser.me/api/portraits/women/65.jpg"
-                  alt="Customer"
-                  className="w-20 h-20 rounded-full mx-auto mb-4"
-                />
-                <p className="text-gray-600 italic mb-4">
-                  “Super easy to use and book services. Highly recommended!”
-                </p>
-                <h4 className="font-semibold text-gray-800">Mim Rahman</h4>
-                <p className="text-sm text-gray-500">Sylhet, Bangladesh</p>
-              </div>
+            <div
+              className="overflow-hidden"
+              onMouseEnter={() => setIsPaused(true)}
+              onMouseLeave={() => setIsPaused(false)}
+            >
+              <motion.div
+                animate={{ x: isPaused ? 0 : ["0%", "-50%"] }}
+                transition={{
+                  duration: 20,
+                  repeat: Infinity,
+                  ease: "linear",
+                  pause: isPaused,
+                }}
+                className="flex gap-8 py-4"
+              >
+                {[...testimonials, ...testimonials].map((t, i) => (
+                  <motion.div
+                    key={i}
+                    whileHover={{ scale: 1.05 }}
+                    className="min-w-[380px] bg-white text-gray-800 p-8 rounded-3xl "
+                  >
+                    <div className="flex mb-4">
+                      {[...Array(t.rating)].map((_, j) => (
+                        <span key={j} className="text-yellow-500 text-2xl">
+                          ★
+                        </span>
+                      ))}
+                    </div>
+                    <p className="text-lg mb-6 italic">"{t.text}"</p>
+                    <div>
+                      <p className="font-bold text-xl">{t.name}</p>
+                      <p className="text-sm text-gray-500">{t.role}</p>
+                    </div>
+                  </motion.div>
+                ))}
+              </motion.div>
             </div>
           </div>
         </section>

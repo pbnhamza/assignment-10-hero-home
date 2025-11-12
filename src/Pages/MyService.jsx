@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-
-import ServiceCard from "./Card/ServiceCard";
 import LoadingPage from "../Components/Loading/LoadingPage";
+import BookCard from "./Books/BookCard";
 
 const MyService = () => {
   const [data, setData] = useState([]);
+  console.log(data);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     fetch("http://localhost:3000/hero")
@@ -32,7 +32,7 @@ const MyService = () => {
       </h1>
       <div className="px-5 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4">
         {data.map((card) => (
-          <ServiceCard key={card._id} card={card}></ServiceCard>
+          <BookCard key={card._id} card={card}></BookCard>
         ))}
       </div>
     </div>

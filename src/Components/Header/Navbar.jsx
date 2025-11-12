@@ -31,18 +31,34 @@ const Navbar = () => {
   };
   const links = (
     <>
-      <li>
-        <MyLink to={"/"}>Home</MyLink>
-      </li>
-      <li>
-        <MyLink to={"/my-service"}>My Services</MyLink>
-      </li>
-      <li>
-        <MyLink to={"/add-service"}>Add Service</MyLink>
-      </li>
-      <li>
-        <MyLink to={"/my-bookings"}>My Bookings</MyLink>
-      </li>
+      {user ? (
+        <>
+          <li>
+            <MyLink to={"/"}>Home</MyLink>
+          </li>
+          <li>
+            <MyLink to={"/all-service"}>Services</MyLink>
+          </li>
+          <li>
+            <MyLink to={"/my-service"}>My Services</MyLink>
+          </li>
+          <li>
+            <MyLink to={"/add-service"}>Add Service</MyLink>
+          </li>
+          <li>
+            <MyLink to={"/my-bookings"}>My Bookings</MyLink>
+          </li>
+        </>
+      ) : (
+        <>
+          <li>
+            <MyLink to={"/"}>Home</MyLink>
+          </li>
+          <li>
+            <MyLink to={"/all-service"}>Services</MyLink>
+          </li>
+        </>
+      )}
     </>
   );
   return (
@@ -55,7 +71,11 @@ const Navbar = () => {
     >
       <div className="navbar-start">
         <div className="dropdown">
-          <div tabIndex={0} role="button" className="btn btn-ghost text-white lg:hidden">
+          <div
+            tabIndex={0}
+            role="button"
+            className="btn btn-ghost text-white lg:hidden"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-5 w-5"

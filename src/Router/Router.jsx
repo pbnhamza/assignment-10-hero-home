@@ -13,6 +13,8 @@ import UpdateProfile from "../Pages/Profile/UpdateProfile";
 import UpdateService from "../Pages/Card/UpdateService";
 import PrivateRoute from "./PrivateRoute";
 import LoadingPage from "../Components/Loading/LoadingPage";
+import AllService from "../Components/AllService/AllService";
+import ServiceBookDetailsCard from "../Pages/Books/ServiceBookDetailsCard";
 
 const router = createBrowserRouter([
   {
@@ -23,6 +25,10 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <Home></Home>,
+      },
+      {
+        path: "/all-service",
+        element: <AllService></AllService>,
       },
       {
         path: "/Auth/login",
@@ -54,6 +60,12 @@ const router = createBrowserRouter([
             <UpdateService></UpdateService>
           </PrivateRoute>
         ),
+        loader: ({ params }) =>
+          fetch(`http://localhost:3000/hero/${params.id}`),
+      },
+      {
+        path: "/book-details/:id",
+        element: <ServiceBookDetailsCard></ServiceBookDetailsCard>,
         loader: ({ params }) =>
           fetch(`http://localhost:3000/hero/${params.id}`),
       },

@@ -39,8 +39,8 @@ const AddService = () => {
   };
   return (
     <div className="py-5 px-5">
-      <div className=" border border-gray-200 bg-base-100 w-full max-w-lg mx-auto shadow-2xl rounded-2xl">
-        <div className="card-body p-6 relative ">
+      <div className=" border border-[#4562FA] w-full max-w-lg mx-auto rounded-2xl shadow-3xl ">
+        <div className="card-body p-6 relative rounded-2xl  ">
           <h2 className="text-2xl font-bold text-center mb-6">
             Add New Service
           </h2>

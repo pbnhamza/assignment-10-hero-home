@@ -34,7 +34,7 @@ const Banner = () => {
 
   return (
     <div>
-      <section className="relative h-[70vh] overflow-hidden">
+      <section className="relative h-[70vh] overflow-hidden bg-cover">
         <AnimatePresence>
           {slide.map(
             (slide, index) =>

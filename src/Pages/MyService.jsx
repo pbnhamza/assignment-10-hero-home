@@ -21,7 +21,15 @@ const MyService = () => {
 
   return (
     <div className="">
-      <h1 className="font-bold text-center text-3xl py-4">My Services</h1>
+      <h1
+        className="font-bold text-center text-white text-3xl py-4"
+        style={{
+          background:
+            "radial-gradient(circle,rgba(1, 10, 42, 1)0%, rgba(252, 70, 107, .10) 100%)",
+        }}
+      >
+        My Services
+      </h1>
       <div className="px-5 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4">
         {data.map((card) => (
           <ServiceCard key={card._id} card={card}></ServiceCard>

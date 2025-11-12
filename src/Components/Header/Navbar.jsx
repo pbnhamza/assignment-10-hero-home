@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 import logo from "../../assets/logo.png";
 const Navbar = () => {
   const { user, signOutUser } = useContext(AuthContext);
+  console.log(user);
   const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
   useEffect(() => {
     const html = document.querySelector("html");
@@ -54,7 +55,7 @@ const Navbar = () => {
     >
       <div className="navbar-start">
         <div className="dropdown">
-          <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
+          <div tabIndex={0} role="button" className="btn btn-ghost text-white lg:hidden">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-5 w-5"
@@ -90,6 +91,12 @@ const Navbar = () => {
         <ul className=" px-1 gap-4 flex text-white font-semibold">{links}</ul>
       </div>
       <div className="navbar-end gap-4 ">
+        <input
+          onChange={(e) => handelTheme(e.target.checked)}
+          defaultChecked={localStorage.getItem("theme") === "dark"}
+          type="checkbox"
+          className="toggle"
+        />
         {user ? (
           <div className="dropdown dropdown-end">
             <div
@@ -116,17 +123,23 @@ const Navbar = () => {
                   "radial-gradient(circle,rgba(63, 94, 251, 0.96) 100%, rgba(252, 70, 107, 1) 100%)",
               }}
             >
-              <input
-                onChange={(e) => handelTheme(e.target.checked)}
-                defaultChecked={localStorage.getItem("theme") === "dark"}
-                type="checkbox"
-                className="toggle"
-              />
-              <li>
-                <Link to={"/my-profile"}>Profile</Link>
+              <li className="py-2">
+                <Link
+                  to={"/my-profile"}
+                  className=" hover:bg-white rounded hover:text-black"
+                >
+                  <div className="space-y-1">
+                    <h1 className="hover:text-[#48345B]">Profile</h1>
+                    <p>{user.displayName}</p>
+                    <p>{user.email}</p>
+                  </div>
+                </Link>
               </li>
               <li>
-                <Link onClick={handleSingOut} className="btn">
+                <Link
+                  onClick={handleSingOut}
+                  className="hover:bg-white rounded hover:text-black"
+                >
                   Logout
                 </Link>
               </li>

@@ -4,7 +4,7 @@ import BookCard from "./Books/BookCard";
 
 const MyService = () => {
   const [data, setData] = useState([]);
-  console.log(data);
+
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     fetch("http://localhost:3000/hero")

@@ -1,14 +1,12 @@
-import { useContext, useRef, useState } from "react";
+import { useContext, useRef } from "react";
 import { Link, useLoaderData } from "react-router";
 import { AuthContext } from "../../Components/context/AuthContext";
+import toast from "react-hot-toast";
 const ServiceBookDetailsCard = () => {
   const serviceData = useLoaderData();
   const card = serviceData.result;
   const bookModalRef = useRef(null);
   const { user } = useContext(AuthContext);
-  const [reviews, setReviews] = useState([]); // local array state
-  const [comments, setComments] = useState("");
-  console.log(reviews);
 
   const handleBooKModal = () => {
     bookModalRef.current.showModal();
@@ -17,15 +15,28 @@ const ServiceBookDetailsCard = () => {
   const handleReview = (e) => {
     e.preventDefault();
     const createArray = {
+      id: userId,
       name: user?.displayName,
       email: user?.email,
       date: new Date().toLocaleDateString(),
-      comments,
+      comments: e.target.textarea.value,
     };
     console.log(createArray);
-    const updatedReviews = [...reviews, createArray];
-    setReviews(updatedReviews);
-    setComments("");
+
+    fetch("http://localhost:3000/bookings", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(createArray),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        toast.success("successfully Add Modal");
+      });
+
+    bookModalRef.current.close();
   };
 
   const {
@@ -34,7 +45,7 @@ const ServiceBookDetailsCard = () => {
     Category,
     PhoneNumber,
     ServiceName,
-    _id,
+    _id: userId,
     Price,
     Email,
     Description,
@@ -120,36 +131,79 @@ const ServiceBookDetailsCard = () => {
         </div>
       </div>
 
-      <dialog ref={bookModalRef} className="modal modal-bottom sm:modal-middle">
-        <div className="rounded-2xl bg-purple-50 p-5  items-end justify-center">
+      <dialog
+        ref={bookModalRef}
+        className="modal modal-bottom sm:modal-middle flex justify-center"
+      >
+        <div className="p-8 rounded-2xl bg-purple-50 ">
           <form onSubmit={handleReview}>
+            <h1 className="text-2xl font-bold text-center text-gray-900 space-y-2">
+              Customer information
+            </h1>
+
+            <input
+              type="text"
+              className="input bg-[#FAF5FF] text-gray-500  text-left"
+              name="name"
+              readOnly
+              defaultValue={`Name: ${user?.displayName}`}
+            />
+            <br />
+            <input
+              type="text"
+              className="input bg-[#FAF5FF] text-gray-500  text-left"
+              readOnly
+              defaultValue={`Email : ${user?.email}`}
+            />
+            <br />
+
+            {/* Category*/}
+            <input
+              type="text"
+              className="input bg-[#FAF5FF] text-gray-500 text-left"
+              readOnly
+              defaultValue={`Category: ${Category}`}
+            />
+            <br />
+            {/* Price*/}
+            <input
+              type="text"
+              className="input bg-[#FAF5FF] text-gray-500"
+              name="name"
+              readOnly
+              defaultValue={`Taka: ${Price} `}
+            />
+            <br />
+            <input
+              type="text"
+              className="input bg-[#FAF5FF] text-gray-500 text-left"
+              readOnly
+              defaultValue={`Service Name: ${ServiceName}`}
+            />
+            <br />
             <label className="font-semibold text-gray-700">
               Write a Review
             </label>
             <textarea
               required
-              value={comments}
-              onChange={(e) => setComments(e.target.value)}
+              name="textarea"
               className="w-full text-gray-600 border p-2 rounded-md mt-1"
               placeholder="Write your Comments..."
             ></textarea>
-            <div className="flex justify-center items-center gap-5">
-              <div>
-                <button
-                  type="submit"
-                  className=" bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 cursor-pointer"
-                >
-                  Submit Review
+            <br />
+            <div className="flex justify-center gap-5">
+              <button
+                type="submit"
+                className=" bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 cursor-pointer"
+              >
+                Submit Review
+              </button>
+              <form method="dialog">
+                {/* if there is a button in form, it will close the modal */}
+                <button className=" bg-gray-800 text-white px-4 py-2 rounded-md hover:bg-blue-700 cursor-pointer">
+                  Close
                 </button>
-              </div>
-              <div>
-                <form method="dialog">
-                  {/* if there is a button in form, it will close the modal */}
-                  <button className=" bg-gray-800 text-white px-4 py-2 rounded-md hover:bg-blue-700 cursor-pointer">
-                    Close
-                  </button>
-                </form>
-              </div>
+              </form>
             </div>
           </form>
         </div>

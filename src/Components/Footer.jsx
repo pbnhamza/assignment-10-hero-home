@@ -16,7 +16,6 @@ const Footer = () => {
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         <div>
           <div className="flex items-center space-x-2 text-white">
-            <LuRotate3D size={25} />
             <span className="text-xl font-bold text-white dark:text-gray-200">
               Hero Home
             </span>
@@ -141,13 +140,18 @@ const Footer = () => {
             >
               <Facebook size={30} />
             </a>
+
             <a
               href="https://twitter.com"
               target="_blank"
               rel="noopener noreferrer"
               className="text-white dark:text-gray-200 hover:text-blue-400"
             >
-              <Twitter size={30} />
+              <img
+                className="w-[30px] bg-white rounded"
+                src="https://img.icons8.com/?size=100&id=6Fsj3rv2DCmG&format=png&color=000000"
+                alt=""
+              />
             </a>
             <a
               href="https://instagram.com"

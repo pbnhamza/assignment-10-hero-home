@@ -3,7 +3,7 @@ import { Link } from "react-router";
 
 const BookCard = ({ card }) => {
   const { ProviderName, ImageURL, Category, ServiceName, _id, Price } = card;
-  console.log(card);
+
   return (
     <div>
       <div className="py-5 ">

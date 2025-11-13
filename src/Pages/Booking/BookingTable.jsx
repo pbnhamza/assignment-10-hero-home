@@ -1,7 +1,8 @@
-import { Navigate } from "react-router";
+import { useNavigate } from "react-router";
 import Swal from "sweetalert2";
 
 const BookingTable = ({ booking }) => {
+  const navigate = useNavigate();
   const { name, email, image, category, price, date, comment } = booking || {};
 
   const handleDelete = () => {
@@ -24,7 +25,7 @@ const BookingTable = ({ booking }) => {
           .then((res) => res.json())
           .then((data) => {
             console.log(data);
-            Navigate("/my-bookings");
+            navigate("/my-bookings");
 
             Swal.fire({
               title: "Deleted!",
@@ -45,11 +46,7 @@ const BookingTable = ({ booking }) => {
           {/* head */}
           <thead>
             <tr>
-              <th>
-                <label>
-                  <input type="checkbox" className="checkbox" />
-                </label>
-              </th>
+              <th></th>
               <th>Name</th>
               <th>Booking information</th>
               <th>Comment</th>

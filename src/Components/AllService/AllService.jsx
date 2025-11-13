@@ -27,7 +27,7 @@ const AllService = () => {
           }}
         >
           <h1 className="font-bold text-center  text-white text-3xl py-4">
-            Our All Service
+            Our Service
           </h1>
         </div>
 

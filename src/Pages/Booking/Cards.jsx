@@ -3,6 +3,7 @@ import { Link } from "react-router";
 
 const Cards = ({ card }) => {
   const { ProviderName, ImageURL, Category, ServiceName, _id, Price } = card;
+  console.log(card);
   return (
     <div>
       <div className="py-5 ">
@@ -29,7 +30,7 @@ const Cards = ({ card }) => {
             {/* <p className="text-sm text-base-content/70">by {author}</p> */}
             <div className="card-actions justify-between items-center mt-4">
               <Link
-                to={`/book-details/${_id}`}
+                // to={`/book-details/${_id}`}
                 style={{
                   background:
                     " radial-gradient(circle,rgba(63, 94, 251, 1) 0%, rgba(252, 70, 107, 1) 100%)",

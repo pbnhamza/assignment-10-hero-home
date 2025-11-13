@@ -37,10 +37,10 @@ const Navbar = () => {
             <MyLink to={"/"}>Home</MyLink>
           </li>
           <li>
-            <MyLink to={"/all-service"}>Services</MyLink>
+            <MyLink to={"/my-service"}>Services</MyLink>
           </li>
           <li>
-            <MyLink to={"/my-service"}>My Services</MyLink>
+            <MyLink to={"/all-service"}>MyServices</MyLink>
           </li>
           <li>
             <MyLink to={"/add-service"}>Add Service</MyLink>

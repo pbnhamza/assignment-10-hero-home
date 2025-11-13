@@ -1,18 +1,43 @@
-import React from "react";
+import { Navigate } from "react-router";
+import Swal from "sweetalert2";
 
-const BookingTable = () => {
-  const data = {
-    name: "Amir Hamza",
-    providerName: "Nasir Hossain",
-    image: "https://i.ibb.co.com/KjrNk8v0/electricians-3.jpg",
-    email: "pbnhamza@gmail.com",
-    price: 700,
-    category: "Electricians",
-    date: "13/11/2025",
-    comment: "best",
+const BookingTable = ({ booking }) => {
+  const { name, email, image, category, price, date, comment } = booking || {};
+
+  const handleDelete = () => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        fetch(`http://localhost:3000/bookings/${booking._id}`, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            console.log(data);
+            Navigate("/my-bookings");
+
+            Swal.fire({
+              title: "Deleted!",
+              text: "Your file has been deleted.",
+              icon: "success",
+            });
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    });
   };
-  const { name, email, image, category, price, date, comment } = data;
-
   return (
     <div>
       <div className="overflow-x-auto">
@@ -61,7 +86,9 @@ const BookingTable = () => {
               </td>
               <td>{comment}</td>
               <th>
-                <button className="btn">Cencel</button>
+                <button onClick={handleDelete} className="btn">
+                  Cencel
+                </button>
               </th>
             </tr>
           </tbody>

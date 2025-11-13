@@ -15,6 +15,7 @@ import PrivateRoute from "./PrivateRoute";
 import LoadingPage from "../Components/Loading/LoadingPage";
 import AllService from "../Components/AllService/AllService";
 import ServiceBookDetailsCard from "../Pages/Books/ServiceBookDetailsCard";
+import BookingTable from "../Pages/Booking/BookingTable";
 
 const router = createBrowserRouter([
   {
@@ -42,6 +43,7 @@ const router = createBrowserRouter([
       {
         path: "/add-service",
         element: <AddService></AddService>,
+        
       },
       {
         path: "/service-details/:id",
@@ -72,6 +74,12 @@ const router = createBrowserRouter([
       {
         path: "/my-bookings",
         element: <MyBookings></MyBookings>,
+      },
+      {
+        path: "booking-delete",
+        element: <BookingTable></BookingTable>,
+        loader: ({ params }) =>
+          fetch(`http://localhost:3000/bookings/${params.id}`),
       },
       {
         path: "/my-profile",

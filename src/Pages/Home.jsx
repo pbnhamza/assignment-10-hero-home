@@ -2,8 +2,7 @@ import Banner from "../Components/Header/Banner";
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { useState } from "react";
-import Cards from "./Booking/Cards";
-import Booking from "./Booking/Booking";
+import MyService from "./MyService";
 
 const Home = () => {
   const [ref1, inView1] = useInView({ triggerOnce: true, threshold: 0.2 });
@@ -40,7 +39,7 @@ const Home = () => {
   return (
     <div className="">
       <Banner></Banner>
-      <Booking></Booking>
+      <MyService></MyService>
 
       <div>
         <section className="py-4 ">

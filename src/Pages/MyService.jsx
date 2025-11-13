@@ -7,7 +7,7 @@ const MyService = () => {
 
   const [loading, setLoading] = useState(true);
   useEffect(() => {
-    fetch("http://localhost:3000/hero")
+    fetch("http://localhost:3000/latest-hero")
       .then((res) => res.json())
       .then((data) => {
         setData(data);

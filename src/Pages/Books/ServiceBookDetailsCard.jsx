@@ -1,4 +1,4 @@
-import { useContext, useRef } from "react";
+import { useContext, useRef, useState } from "react";
 import { Link, useLoaderData } from "react-router";
 import { AuthContext } from "../../Components/context/AuthContext";
 import toast from "react-hot-toast";
@@ -7,6 +7,13 @@ const ServiceBookDetailsCard = () => {
   const card = serviceData.result;
   const bookModalRef = useRef(null);
   const { user } = useContext(AuthContext);
+
+  const [reviews, setReviews] = useState([]);
+  const [comment, setComment] = useState("");
+
+
+  
+
 
   const handleBooKModal = () => {
     bookModalRef.current.showModal();
@@ -17,11 +24,19 @@ const ServiceBookDetailsCard = () => {
     const createArray = {
       id: userId,
       name: user?.displayName,
+      providerName: ProviderName,
+      image: ImageURL,
       email: user?.email,
+      price: Price,
+      category: Category,
       date: new Date().toLocaleDateString(),
-      comments: e.target.textarea.value,
+      comment,
+      reviews,
     };
     console.log(createArray);
+    const updatedReviews = [...reviews, createArray];
+    setReviews(updatedReviews);
+    setComment("");
 
     fetch("http://localhost:3000/bookings", {
       method: "POST",
@@ -140,15 +155,6 @@ const ServiceBookDetailsCard = () => {
             <h1 className="text-2xl font-bold text-center text-gray-900 space-y-2">
               Customer information
             </h1>
-
-            <input
-              type="text"
-              className="input bg-[#FAF5FF] text-gray-500  text-left"
-              name="name"
-              readOnly
-              defaultValue={`Name: ${user?.displayName}`}
-            />
-            <br />
             <input
               type="text"
               className="input bg-[#FAF5FF] text-gray-500  text-left"
@@ -157,23 +163,6 @@ const ServiceBookDetailsCard = () => {
             />
             <br />
 
-            {/* Category*/}
-            <input
-              type="text"
-              className="input bg-[#FAF5FF] text-gray-500 text-left"
-              readOnly
-              defaultValue={`Category: ${Category}`}
-            />
-            <br />
-            {/* Price*/}
-            <input
-              type="text"
-              className="input bg-[#FAF5FF] text-gray-500"
-              name="name"
-              readOnly
-              defaultValue={`Taka: ${Price} `}
-            />
-            <br />
             <input
               type="text"
               className="input bg-[#FAF5FF] text-gray-500 text-left"
@@ -187,6 +176,7 @@ const ServiceBookDetailsCard = () => {
             <textarea
               required
               name="textarea"
+              onChange={(e) => setComment(e.target.value)}
               className="w-full text-gray-600 border p-2 rounded-md mt-1"
               placeholder="Write your Comments..."
             ></textarea>

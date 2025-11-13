@@ -1,9 +1,7 @@
-import React from "react";
 import { Link } from "react-router";
 
 const ServiceCard = ({ card }) => {
   const { ProviderName, ImageURL, Category, ServiceName, _id, Price } = card;
-
   return (
     <div className="py-5 ">
       <div className="card bg-base-100 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">

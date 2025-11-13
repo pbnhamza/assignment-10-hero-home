@@ -4,7 +4,6 @@ import Swal from "sweetalert2";
 const BookingTable = ({ booking }) => {
   const navigate = useNavigate();
   const { name, email, image, category, price, date, comment } = booking || {};
-
   const handleDelete = () => {
     Swal.fire({
       title: "Are you sure?",

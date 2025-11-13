@@ -1,7 +1,15 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+
+import LoadingPage from "../Components/Loading/LoadingPage";
+import Cards from "./Booking/Cards";
+import BookingTable from "./Booking/BookingTable";
 
 const MyBookings = () => {
-  return <div>My booking</div>;
+  return (
+    <div>
+      <BookingTable></BookingTable>
+    </div>
+  );
 };
 
 export default MyBookings;
